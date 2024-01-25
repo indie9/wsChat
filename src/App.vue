@@ -40,7 +40,6 @@ export default {
     host: 'https://petwschat-nikolayg.amvera.io/'
   },
 	mounted() {
-
 		const localtoken = localStorage.getItem('token')
 
 		if (localtoken) {

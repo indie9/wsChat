@@ -6,7 +6,7 @@ axios.interceptors.request.use(config => {
   return config;
 });
 // const baseUrl = "http://localhost:80"
-const baseUrl = "https://testwschat-nikolayg.amvera.io"
+const baseUrl = "https://petwschat-nikolayg.amvera.io"
 const api = {
 	auth : {
 		userCheck: (dto) => {
