@@ -5,8 +5,8 @@ axios.interceptors.request.use(config => {
   // Другие заголовки CORS могут быть добавлены здесь
   return config;
 });
-const baseUrl = "http://localhost:80"
-// const baseUrl = "https://testwschat-nikolayg.amvera.io"
+// const baseUrl = "http://localhost:80"
+const baseUrl = "https://testwschat-nikolayg.amvera.io"
 const api = {
 	auth : {
 		userCheck: (dto) => {
