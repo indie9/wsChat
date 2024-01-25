@@ -37,7 +37,7 @@ export default {
 
 	},
 	provide: {
-    host: 'https://testwschat-nikolayg.amvera.io/'
+    host: 'https://petwschat-nikolayg.amvera.io/'
   },
 	mounted() {
 
