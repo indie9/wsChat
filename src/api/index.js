@@ -1,7 +1,12 @@
 // import store from '@/store'
 import axios from 'axios'
+axios.interceptors.request.use(config => {
+  config.headers['Access-Control-Allow-Origin'] = '*'; // Это позволит использовать любой origin
+  // Другие заголовки CORS могут быть добавлены здесь
+  return config;
+});
 // const baseUrl = "http://localhost:80"
-const baseUrl = "https://wschat-nikolayg.amvera.io"
+const baseUrl = "https://testwschat-nikolayg.amvera.io"
 const api = {
 	auth : {
 		userCheck: (dto) => {

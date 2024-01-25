@@ -22,7 +22,7 @@
 						<label for="passwordRepeat" class="block text-sm font-medium text-gray-700">
 							Аватар пользователя
 						</label>
-            <img v-if="dataModal.user.avatar && !avatarEdited" :src="host + '/' + dataModal.user.avatar"  alt="User Photo" />
+            <img v-if="dataModal.user.avatar && !avatarEdited" :src="host + dataModal.user.avatar"  alt="User Photo" />
 						<div ref="imgContainer"></div>
 						<div class="mt-1">
 							<input type="file" ref="imgInput" @change="uploadImg" />

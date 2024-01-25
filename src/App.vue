@@ -37,11 +37,9 @@ export default {
 
 	},
 	provide: {
-    host: 'https://wschat-nikolayg.amvera.io'
+    host: 'https://testwschat-nikolayg.amvera.io/'
   },
 	mounted() {
-
-
 
 		const localtoken = localStorage.getItem('token')
 

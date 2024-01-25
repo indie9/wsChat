@@ -110,7 +110,7 @@ export default {
     ...mapActions(modalState, ['openModal']),
     ...mapActions(socketStore, ['connection']),
     avatarSRC(id) {
-      return this.host + '/' + id;
+      return this.host + id;
     },
     addChat(chat = null) {
       this.openModal(

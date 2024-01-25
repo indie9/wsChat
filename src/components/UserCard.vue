@@ -33,7 +33,7 @@ export default {
   inject: ['host'],
   computed: {
     avatarSRC() {
-      return this.host + '/' + this.user.avatar;
+      return this.host + this.user.avatar;
     },
     isAdmin() {
       return this.user.roles.includes('ADMIN')

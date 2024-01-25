@@ -11,7 +11,7 @@ export const socketStore = defineStore("socketStore", {
   },
   actions: {
     connection() {
-      this.socket = io('https://wschat-nikolayg.amvera.io');
+      this.socket = io('https://testwschat-nikolayg.amvera.io');
       
     },
   },
