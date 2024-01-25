@@ -1,0 +1,1 @@
+import{_ as o,r as t,c as n,x as r,o as c}from"./index-My5lkwnf.js";const s={mounted(){}};function a(_,p,u,i,m,l){const e=t("RouterView");return c(),n("main",null,[r(e)])}const f=o(s,[["render",a]]);export{f as default};
