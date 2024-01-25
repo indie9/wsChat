@@ -1,0 +1,37 @@
+@import './base.css';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+#app {
+  width: 100%;
+  margin: 0 auto;
+  font-weight: normal;
+}
+
+a,
+.green {
+  text-decoration: none;
+  color: hsla(160, 100%, 37%, 1);
+  transition: 0.4s;
+  padding: 3px;
+}
+body {
+  display: flex;
+  /* &.modal-open {
+    position:relative;
+    overflow: auto;
+  } */
+}
+
+@media (hover: hover) {
+  a:hover {
+    background-color: hsla(160, 100%, 37%, 0.2);
+  }
+}
+
+@media (min-width: 1024px) {
+
+  #app {
+
+  }
+}
