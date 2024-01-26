@@ -1,9 +1,22 @@
 <template>
 	<div class="bg-gray-100 min-h-screen flex flex-col justify-center py-12 sm:px-6 lg:px-8">
 		<div class="sm:mx-auto sm:w-full sm:max-w-md">
+			<div class="relative" @mouseover="showTooltip" @mouseout="hideTooltip">
+
+				<button  class="bg-blue-500 text-white px-4 py-2 rounded-md opacity-20">
+					Подсказка
+				</button>
+				<div v-if="isTooltipVisible" class="absolute bg-white border border-gray-300 p-4 rounded-md shadow-md text-black">
+					<p class="text-sm">Зарегистрируйтесь, либо используйте данные</p>
+					<p class="text-sm">Логин: admin@admin</p>
+					<p class="text-sm">Пароль: 1111</p>
+				</div>
+			</div>
 			<h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
 				Войти в аккаунт
+
 			</h2>
+
 		</div>
 
 		<div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
@@ -14,8 +27,7 @@
 							Email адрес
 						</label>
 						<div class="mt-1">
-							<input id="email" name="text" type="email" v-model="model.email" required
-								placeholder="Ваш email или логин"
+							<input id="email" name="text" type="email" v-model="model.email" required placeholder="Ваш email или логин"
 								class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-black" />
 						</div>
 					</div>
@@ -34,8 +46,7 @@
 					<div class="flex items-center justify-between">
 						<div class="flex items-center">
 							<input id="remember_me" name="remember_me" type="checkbox"
-								class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
-								v-model="remember" />
+								class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded" v-model="remember" />
 							<label for="remember_me" class="ml-2 block text-sm text-gray-900">
 								Запомнить меня
 							</label>
@@ -72,12 +83,19 @@ export default {
 				email: '',
 				password: ''
 			},
-			remember: false
+			remember: false,
+			isTooltipVisible: false
 		};
 	},
 	methods: {
 		...mapActions(userLogin, ['tokenSet', 'userSet']),
 		...mapActions(modalState, ['openModal']),
+		showTooltip() {
+			this.isTooltipVisible = true;
+		},
+		hideTooltip() {
+			this.isTooltipVisible = false;
+		},
 		submitForm() {
 			return api.auth.login(this.model)
 				.then((response) => {
@@ -95,10 +113,10 @@ export default {
 						'ConfirmModal',
 						{
 							title: `Have some trouble`,
-							text: error && error.response && error.response.data  && error.response.data.message || "Registration error",
+							text: error && error.response && error.response.data && error.response.data.message || "Registration error",
 							disabledCancel: true
 						},
-						() => {})
+						() => { })
 				});
 		},
 	},

@@ -19,10 +19,10 @@
       </div>
 
       <div class="chatl-list-wrapper overflow-y-auto ">
+        <h1 v-if="!chatsList.length" class="text-4xl font-bold text-center text-gray-300 mt-2">Пока не создано чатов</h1>
         <div v-for="chat in chatsList" :key="chat._id" @click="enterRoom(chat._id)"
           :class="{ 'bg-[#DCFCE7] hover:bg-green-200': chat._id == currentChat }"
-          class="cursor-pointer rounded-lg shadow-lg p-2 bg-white bg-green-100 hover:bg-gray-100 mb-2 mr-2 relative group"
-          >
+          class="cursor-pointer rounded-lg shadow-lg p-2 bg-white bg-green-100 hover:bg-gray-100 mb-2 mr-2 relative group">
           <div class="m-1">
             <div>
               <h3 class="text-lg font-bold mb-2 text-black">{{ chat.title }}</h3>
@@ -39,29 +39,34 @@
               </p>
             </div>
           </div>
-          <div v-if="chat.author?._id == user._id" class="absolute hidden items-center right-2 top-2 group-hover:flex">
-            <button v-if="true" @click.stop="addChat(chat)"
-              class="bg-blue-500 hover:bg-blue-600 text-white font-bold rounded-full h-6 w-6 p-1 ml-auto">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <div v-if="chat.author?._id == user._id || isMaster"
+            class="absolute hidden items-center right-2 top-2 group-hover:flex">
+
+            <button  @click.stop="addChat(chat)"
+              class="hover:text-gray-800 text-gray-500 font-bold h-6 w-6 ml-auto">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
                   d="M15.728 9.68601L14.314 8.27201L5 17.586V19H6.414L15.728 9.68601ZM17.142 8.27201L18.556 6.85801L17.142 5.44401L15.728 6.85801L17.142 8.27201ZM7.242 21H3V16.757L16.435 3.32201C16.6225 3.13454 16.8768 3.02922 17.142 3.02922C17.4072 3.02922 17.6615 3.13454 17.849 3.32201L20.678 6.15101C20.8655 6.33853 20.9708 6.59284 20.9708 6.85801C20.9708 7.12317 20.8655 7.37748 20.678 7.56501L7.243 21H7.242Z"
                   fill="currentColor" />
               </svg>
 
             </button>
-            <button v-if="!isMaster" @click.stop="deleteChat(chat)"
-              class="bg-red-500 hover:bg-red-600 text-white font-bold rounded-full h-6 w-6 ml-2">
-              X
+            <button @click.stop="deleteChat(chat)" class=" hover:text-red-800 text-red-500 font-bold h-6 w-6 ml-2">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"
+                  fill="currentColor" />
+              </svg>
             </button>
           </div>
         </div>
       </div>
     </div>
     <div class="w-3/4 bg-white p-4 max-h-full bg-gradient-to-b from-gray-100 to-gray-300">
-      <RouterView :key="$route.fullPath"/>
+      <RouterView :key="$route.fullPath" />
 
 
-          <h1  v-if="!currentChat" class="text-4xl font-bold text-center text-gray-300 mt-32">Выберите комнату</h1>
+      <h1 v-if="!currentChat" class="text-4xl font-bold text-center text-gray-300 mt-32">Выберите комнату</h1>
 
     </div>
   </div>
@@ -104,6 +109,9 @@ export default {
     isAdmin() {
       return this.user?.roles?.includes('ADMIN')
     },
+    isMaster() {
+      return this.user.roles.includes('MASTER')
+    }
   },
   inject: ['host'],
   methods: {
@@ -116,7 +124,7 @@ export default {
       this.openModal(
         'EditChatModal',
         {
-          title: chat ? `Edit chat` : 'Create chat',
+          title: chat ? `Редактирование чата` : 'Создание чата',
           chat: chat
         },
         (dto) => {
@@ -136,8 +144,8 @@ export default {
       this.openModal(
         'ConfirmModal',
         {
-          title: `Chat delete`,
-          text: `You want to delete a chat ${chat.title}?`
+          title: `Удаление чат`,
+          text: `Вы хотите удалить чат ${chat.title}?`
         },
         () => {
           return api.chatService.deleteChat(chat._id).then(() => {

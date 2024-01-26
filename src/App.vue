@@ -2,7 +2,6 @@
 	<header v-if="user">
 		<Navigation @exit="exit" />
 	</header>
-	<ConnectionManager />
 	<RouterView />
 	<ModalService v-if="isOpenModal" :dataModal="dataModal" :componentModal="componentModal" @close="closeModalAction" />
 </template>

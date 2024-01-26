@@ -1,7 +1,7 @@
 
 <template>
-  <div class="h-screen w-screen bg-slate-400/[.6] inset-y-0 overflow-hidden flex items-center fixed">
-    <div class="modal h-auto w-1/2 mx-auto">
+  <div class="h-screen w-screen bg-slate-400/[.6] inset-y-0 overflow-hidden flex items-center fixed ">
+    <div class="modal h-auto w-1/2 mx-auto max-w-lg">
       <div class="modal-overlay"></div>
       <div class="modal-container bg-white p-4 rounded-lg shadow-lg">
         <div class="modal-header flex justify-between items-center mb-4">

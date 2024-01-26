@@ -1,5 +1,5 @@
 <template>
-  <main>
+  <main class="bg-gradient-to-b from-gray-100 to-gray-300 h-full p-10 main-wrapper">
     <UserCard v-for="useritem in userList" :user="useritem" :key="useritem._id" class="m-6" @deleteUser="deleteUser(useritem)" @editUser="editUser(useritem)"/>
   </main>
 </template>
@@ -68,3 +68,9 @@ export default {
 }
 </script>
 
+<style scoped>
+.main-wrapper {
+  max-height: calc(100vh - 80px);
+}
+
+</style>

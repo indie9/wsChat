@@ -59,12 +59,24 @@
 						<label for="passwordRepeat" class="block text-sm font-medium text-gray-700">
 							Аватар пользователя
 						</label>
-						<div ref="imgContainer"></div>
-						<div class="mt-1">
-							<input type="file" ref="imgInput" @change="uploadImg" />
+
+						<div ref="imgContainer" ></div>
+						<img v-if="!uploadPhoto" src="@/assets/avatar.png" class="w-16 h-16 rounded-full object-cover"
+							alt="User Photo" />
+
+						<div class="mt-4">
+
+								<label for="photo" class="cursor-pointer px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-indigo-600  hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-800 transition duration-150 ease-in-out">
+									{{ !uploadPhoto ? 'Загрузить' : 'Заменить' }}
+								</label>
+
+							<button type="button" @click="clearImg" v-if="uploadPhoto"
+								class="ml-5 py-2 px-4 border border-transparent border-indigo-500 text-sm leading-5 font-medium rounded-md text-indigo-600 bg-white hover:bg-gray-100  focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-800 transition duration-150 ease-in-out">
+								Очистить
+							</button>
+							<input id="photo" type="file" ref="imgInput" @change="uploadImg" class="sr-only" />
 						</div>
 					</div>
-
 
 
 					<div>
@@ -91,7 +103,8 @@ export default {
 				password: '',
 				username: ''
 			},
-			passwordRepeat: ''
+			passwordRepeat: '',
+			uploadPhoto: false,
 		};
 	},
 	methods: {
@@ -118,18 +131,17 @@ export default {
 						() => {
 							this.$router.push("login")
 						})
-					
+
 				})
 				.catch((error) => {
-					console.log(error.response.data.message)
 					this.openModal(
 						'ConfirmModal',
 						{
 							title: `Have some trouble`,
-							text: error && error.response && error.response.data  && error.response.data.message || "Registration error",
+							text: error && error.response && error.response.data && error.response.data.message || "Registration error",
 							disabledCancel: true
 						},
-						() => {})
+						() => { })
 				});
 		},
 		uploadImg(event) {
@@ -144,7 +156,15 @@ export default {
 				imgContainer.append(img);
 			}
 			fileReader.readAsDataURL(imageFile);
+			this.uploadPhoto = true
+		},
+		clearImg() {
+			const imgInput = this.$refs['imgInput'];
+			const imgContainer = this.$refs['imgContainer'];
+			imgContainer.innerHTML = ''
+			imgInput.value = ''
+			this.uploadPhoto = false
 		}
-	}
+	},
 };
 </script>                                                                        

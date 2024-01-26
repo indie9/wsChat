@@ -14,7 +14,7 @@
 	</div>
 	<div class="modal-footer text-right text-black">
 		<button @click="close" class="modal-btn-cancel bg-gray-300 p-2 rounded-md mr-2">Отмена</button>
-		<button @click="action" class="modal-btn-confirm bg-green-500 text-white p-2 rounded-md">Подтвердить</button>
+		<button @click="action" class="modal-btn-confirm bg-green-500 text-white p-2 rounded-md">Сохранить</button>
 	</div>
 </template>
 
@@ -38,7 +38,7 @@ export default {
 	},
 	mounted() {
 		this.model = {
-			author: this.currentUserId._id,
+			author: this.dataModal.chat?.author?._id || this.currentUserId._id,
 			title: this.dataModal.chat?.title || "",
 			_id: this.dataModal.chat?._id || null,
 		}

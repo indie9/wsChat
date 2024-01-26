@@ -1,5 +1,5 @@
 <template>
-  <div class="modal-body text-black mb-8">
+  <div class="modal-body text-black mb-8 ">
     <form class="space-y-6" @submit.prevent="submitForm">
 					<div>
 						<label for="username" class="block text-sm font-medium text-gray-700">
@@ -22,10 +22,22 @@
 						<label for="passwordRepeat" class="block text-sm font-medium text-gray-700">
 							Аватар пользователя
 						</label>
-            <img v-if="dataModal.user.avatar && !avatarEdited" :src="host + dataModal.user.avatar"  alt="User Photo" />
-						<div ref="imgContainer"></div>
-						<div class="mt-1">
-							<input type="file" ref="imgInput" @change="uploadImg" />
+						<img v-if="uploadPhoto && !avatarEdited" :src="host + dataModal.user.avatar" class="max-h-96" alt="User Photo" />
+						<div ref="imgContainer" class="max-h-96"></div>
+						<img v-if="!uploadPhoto" src="@/assets/avatar.png" class="w-16 h-16 rounded-full object-cover max-h-96"
+							alt="User Photo" />
+
+						<div class="mt-4">
+
+								<label for="photo" class="cursor-pointer px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-indigo-600  hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-800 transition duration-150 ease-in-out">
+									{{ !uploadPhoto ? 'Загрузить' : 'Заменить' }}
+								</label>
+
+							<button type="button" @click="clearImg" v-if="uploadPhoto"
+								class="ml-5 py-2 px-4 border border-transparent border-indigo-500 text-sm leading-5 font-medium rounded-md text-indigo-600 bg-white hover:bg-gray-100  focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-800 transition duration-150 ease-in-out">
+								Очистить
+							</button>
+							<input id="photo" type="file" ref="imgInput" @change="uploadImg" class="sr-only" />
 						</div>
 					</div>
 
@@ -44,15 +56,18 @@ export default {
   props: {
     dataModal: Object
   },
+	inject: ['host'],
   data() {
     return {
       model: {},
       isAdmin: false,
-      avatarEdited: false
+      avatarEdited: false,
+			uploadPhoto: false,
     }
   },
   mounted() {
     this.model = {...this.dataModal.user}
+		this.uploadPhoto = this.model.avatar
     this.isAdmin = this.dataModal.user.roles.includes("ADMIN")
   },
   methods: {
@@ -66,6 +81,8 @@ export default {
       } 
 			if (this.$refs.imgInput.files && this.$refs.imgInput.files.length) {
 				dataRequest.append('avatar', this.$refs.imgInput.files[0])
+			} else if (this.avatarEdited) {
+				dataRequest.append('avatar', '')
 			}
       this.$emit('action',dataRequest)
     },
@@ -85,6 +102,16 @@ export default {
 				imgContainer.append(img);
 			}
 			fileReader.readAsDataURL(imageFile);
+			this.uploadPhoto = true
+		},
+		clearImg() {
+			this.avatarEdited = true
+			const imgInput = this.$refs['imgInput'];
+			const imgContainer = this.$refs['imgContainer'];
+			imgContainer.innerHTML = ''
+			imgInput.value = ''
+			this.uploadPhoto = false
+			
 		}
   }
 }
